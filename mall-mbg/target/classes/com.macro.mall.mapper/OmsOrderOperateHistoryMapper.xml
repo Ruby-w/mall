@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.UmsAdminPermissionRelationMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.UmsAdminPermissionRelation">
+<mapper namespace="com.macro.mall.mapper.OmsOrderOperateHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.OmsOrderOperateHistory">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="admin_id" jdbcType="BIGINT" property="adminId" />
-    <result column="permission_id" jdbcType="BIGINT" property="permissionId" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="operate_man" jdbcType="VARCHAR" property="operateMan" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, admin_id, permission_id, type
+    id, order_id, operate_man, create_time, order_status, note
   </sql>
-  <select id="selectByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.macro.mall.model.OmsOrderOperateHistoryExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from oms_order_operate_history
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,76 +87,94 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from oms_order_operate_history
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ums_admin_permission_relation
+    delete from oms_order_operate_history
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample">
-    delete from ums_admin_permission_relation
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.OmsOrderOperateHistoryExample">
+    delete from oms_order_operate_history
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insert" parameterType="com.macro.mall.model.OmsOrderOperateHistory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation (admin_id, permission_id, type
-      )
-    values (#{adminId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}
-      )
+    insert into oms_order_operate_history (order_id, operate_man, create_time, 
+      order_status, note)
+    values (#{orderId,jdbcType=BIGINT}, #{operateMan,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{orderStatus,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insertSelective" parameterType="com.macro.mall.model.OmsOrderOperateHistory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation
+    insert into oms_order_operate_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        admin_id,
+      <if test="orderId != null">
+        order_id,
       </if>
-      <if test="permissionId != null">
-        permission_id,
+      <if test="operateMan != null">
+        operate_man,
       </if>
-      <if test="type != null">
-        type,
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="note != null">
+        note,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        #{adminId,jdbcType=BIGINT},
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
       </if>
-      <if test="permissionId != null">
-        #{permissionId,jdbcType=BIGINT},
+      <if test="operateMan != null">
+        #{operateMan,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultType="java.lang.Long">
-    select count(*) from ums_admin_permission_relation
+  <select id="countByExample" parameterType="com.macro.mall.model.OmsOrderOperateHistoryExample" resultType="java.lang.Long">
+    select count(*) from oms_order_operate_history
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ums_admin_permission_relation
+    update oms_order_operate_history
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.adminId != null">
-        admin_id = #{record.adminId,jdbcType=BIGINT},
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=BIGINT},
       </if>
-      <if test="record.permissionId != null">
-        permission_id = #{record.permissionId,jdbcType=BIGINT},
+      <if test="record.operateMan != null">
+        operate_man = #{record.operateMan,jdbcType=VARCHAR},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.note != null">
+        note = #{record.note,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -162,35 +182,45 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ums_admin_permission_relation
+    update oms_order_operate_history
     set id = #{record.id,jdbcType=BIGINT},
-      admin_id = #{record.adminId,jdbcType=BIGINT},
-      permission_id = #{record.permissionId,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=INTEGER}
+      order_id = #{record.orderId,jdbcType=BIGINT},
+      operate_man = #{record.operateMan,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      order_status = #{record.orderStatus,jdbcType=INTEGER},
+      note = #{record.note,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.OmsOrderOperateHistory">
+    update oms_order_operate_history
     <set>
-      <if test="adminId != null">
-        admin_id = #{adminId,jdbcType=BIGINT},
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=BIGINT},
       </if>
-      <if test="permissionId != null">
-        permission_id = #{permissionId,jdbcType=BIGINT},
+      <if test="operateMan != null">
+        operate_man = #{operateMan,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
-    set admin_id = #{adminId,jdbcType=BIGINT},
-      permission_id = #{permissionId,jdbcType=BIGINT},
-      type = #{type,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.OmsOrderOperateHistory">
+    update oms_order_operate_history
+    set order_id = #{orderId,jdbcType=BIGINT},
+      operate_man = #{operateMan,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      note = #{note,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

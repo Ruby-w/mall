@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.UmsAdminPermissionRelationMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.UmsAdminPermissionRelation">
+<mapper namespace="com.macro.mall.mapper.SmsFlashPromotionMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.SmsFlashPromotion">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="admin_id" jdbcType="BIGINT" property="adminId" />
-    <result column="permission_id" jdbcType="BIGINT" property="permissionId" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, admin_id, permission_id, type
+    id, title, start_date, end_date, status, create_time
   </sql>
-  <select id="selectByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.macro.mall.model.SmsFlashPromotionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from sms_flash_promotion
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,76 +87,94 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from sms_flash_promotion
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ums_admin_permission_relation
+    delete from sms_flash_promotion
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample">
-    delete from ums_admin_permission_relation
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.SmsFlashPromotionExample">
+    delete from sms_flash_promotion
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insert" parameterType="com.macro.mall.model.SmsFlashPromotion">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation (admin_id, permission_id, type
-      )
-    values (#{adminId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}
-      )
+    insert into sms_flash_promotion (title, start_date, end_date, 
+      status, create_time)
+    values (#{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insertSelective" parameterType="com.macro.mall.model.SmsFlashPromotion">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation
+    insert into sms_flash_promotion
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        admin_id,
+      <if test="title != null">
+        title,
       </if>
-      <if test="permissionId != null">
-        permission_id,
+      <if test="startDate != null">
+        start_date,
       </if>
-      <if test="type != null">
-        type,
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        #{adminId,jdbcType=BIGINT},
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
       </if>
-      <if test="permissionId != null">
-        #{permissionId,jdbcType=BIGINT},
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultType="java.lang.Long">
-    select count(*) from ums_admin_permission_relation
+  <select id="countByExample" parameterType="com.macro.mall.model.SmsFlashPromotionExample" resultType="java.lang.Long">
+    select count(*) from sms_flash_promotion
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ums_admin_permission_relation
+    update sms_flash_promotion
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.adminId != null">
-        admin_id = #{record.adminId,jdbcType=BIGINT},
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.permissionId != null">
-        permission_id = #{record.permissionId,jdbcType=BIGINT},
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=DATE},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -162,35 +182,45 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ums_admin_permission_relation
+    update sms_flash_promotion
     set id = #{record.id,jdbcType=BIGINT},
-      admin_id = #{record.adminId,jdbcType=BIGINT},
-      permission_id = #{record.permissionId,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=INTEGER}
+      title = #{record.title,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      status = #{record.status,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.SmsFlashPromotion">
+    update sms_flash_promotion
     <set>
-      <if test="adminId != null">
-        admin_id = #{adminId,jdbcType=BIGINT},
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="permissionId != null">
-        permission_id = #{permissionId,jdbcType=BIGINT},
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
-    set admin_id = #{adminId,jdbcType=BIGINT},
-      permission_id = #{permissionId,jdbcType=BIGINT},
-      type = #{type,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.SmsFlashPromotion">
+    update sms_flash_promotion
+    set title = #{title,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

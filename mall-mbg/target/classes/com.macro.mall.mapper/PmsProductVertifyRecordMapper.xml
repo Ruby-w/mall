@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.UmsAdminPermissionRelationMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.UmsAdminPermissionRelation">
+<mapper namespace="com.macro.mall.mapper.PmsProductVertifyRecordMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.PmsProductVertifyRecord">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="admin_id" jdbcType="BIGINT" property="adminId" />
-    <result column="permission_id" jdbcType="BIGINT" property="permissionId" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="product_id" jdbcType="BIGINT" property="productId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="vertify_man" jdbcType="VARCHAR" property="vertifyMan" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, admin_id, permission_id, type
+    id, product_id, create_time, vertify_man, status, detail
   </sql>
-  <select id="selectByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.macro.mall.model.PmsProductVertifyRecordExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from pms_product_vertify_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,76 +87,94 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from pms_product_vertify_record
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ums_admin_permission_relation
+    delete from pms_product_vertify_record
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample">
-    delete from ums_admin_permission_relation
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.PmsProductVertifyRecordExample">
+    delete from pms_product_vertify_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insert" parameterType="com.macro.mall.model.PmsProductVertifyRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation (admin_id, permission_id, type
-      )
-    values (#{adminId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}
-      )
+    insert into pms_product_vertify_record (product_id, create_time, vertify_man, 
+      status, detail)
+    values (#{productId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{vertifyMan,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{detail,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insertSelective" parameterType="com.macro.mall.model.PmsProductVertifyRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation
+    insert into pms_product_vertify_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        admin_id,
+      <if test="productId != null">
+        product_id,
       </if>
-      <if test="permissionId != null">
-        permission_id,
+      <if test="createTime != null">
+        create_time,
       </if>
-      <if test="type != null">
-        type,
+      <if test="vertifyMan != null">
+        vertify_man,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="detail != null">
+        detail,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        #{adminId,jdbcType=BIGINT},
+      <if test="productId != null">
+        #{productId,jdbcType=BIGINT},
       </if>
-      <if test="permissionId != null">
-        #{permissionId,jdbcType=BIGINT},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="vertifyMan != null">
+        #{vertifyMan,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultType="java.lang.Long">
-    select count(*) from ums_admin_permission_relation
+  <select id="countByExample" parameterType="com.macro.mall.model.PmsProductVertifyRecordExample" resultType="java.lang.Long">
+    select count(*) from pms_product_vertify_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ums_admin_permission_relation
+    update pms_product_vertify_record
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.adminId != null">
-        admin_id = #{record.adminId,jdbcType=BIGINT},
+      <if test="record.productId != null">
+        product_id = #{record.productId,jdbcType=BIGINT},
       </if>
-      <if test="record.permissionId != null">
-        permission_id = #{record.permissionId,jdbcType=BIGINT},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.vertifyMan != null">
+        vertify_man = #{record.vertifyMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.detail != null">
+        detail = #{record.detail,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -162,35 +182,45 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ums_admin_permission_relation
+    update pms_product_vertify_record
     set id = #{record.id,jdbcType=BIGINT},
-      admin_id = #{record.adminId,jdbcType=BIGINT},
-      permission_id = #{record.permissionId,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=INTEGER}
+      product_id = #{record.productId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      vertify_man = #{record.vertifyMan,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      detail = #{record.detail,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.PmsProductVertifyRecord">
+    update pms_product_vertify_record
     <set>
-      <if test="adminId != null">
-        admin_id = #{adminId,jdbcType=BIGINT},
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=BIGINT},
       </if>
-      <if test="permissionId != null">
-        permission_id = #{permissionId,jdbcType=BIGINT},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="vertifyMan != null">
+        vertify_man = #{vertifyMan,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
-    set admin_id = #{adminId,jdbcType=BIGINT},
-      permission_id = #{permissionId,jdbcType=BIGINT},
-      type = #{type,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.PmsProductVertifyRecord">
+    update pms_product_vertify_record
+    set product_id = #{productId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      vertify_man = #{vertifyMan,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      detail = #{detail,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

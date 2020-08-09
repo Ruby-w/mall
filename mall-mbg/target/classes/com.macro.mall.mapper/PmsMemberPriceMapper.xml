@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.UmsAdminPermissionRelationMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.UmsAdminPermissionRelation">
+<mapper namespace="com.macro.mall.mapper.PmsMemberPriceMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.PmsMemberPrice">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="admin_id" jdbcType="BIGINT" property="adminId" />
-    <result column="permission_id" jdbcType="BIGINT" property="permissionId" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="product_id" jdbcType="BIGINT" property="productId" />
+    <result column="member_level_id" jdbcType="BIGINT" property="memberLevelId" />
+    <result column="member_price" jdbcType="DECIMAL" property="memberPrice" />
+    <result column="member_level_name" jdbcType="VARCHAR" property="memberLevelName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, admin_id, permission_id, type
+    id, product_id, member_level_id, member_price, member_level_name
   </sql>
-  <select id="selectByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.macro.mall.model.PmsMemberPriceExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from pms_member_price
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,76 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from pms_member_price
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ums_admin_permission_relation
+    delete from pms_member_price
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample">
-    delete from ums_admin_permission_relation
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.PmsMemberPriceExample">
+    delete from pms_member_price
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insert" parameterType="com.macro.mall.model.PmsMemberPrice">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation (admin_id, permission_id, type
-      )
-    values (#{adminId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}
-      )
+    insert into pms_member_price (product_id, member_level_id, member_price, 
+      member_level_name)
+    values (#{productId,jdbcType=BIGINT}, #{memberLevelId,jdbcType=BIGINT}, #{memberPrice,jdbcType=DECIMAL}, 
+      #{memberLevelName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insertSelective" parameterType="com.macro.mall.model.PmsMemberPrice">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation
+    insert into pms_member_price
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        admin_id,
+      <if test="productId != null">
+        product_id,
       </if>
-      <if test="permissionId != null">
-        permission_id,
+      <if test="memberLevelId != null">
+        member_level_id,
       </if>
-      <if test="type != null">
-        type,
+      <if test="memberPrice != null">
+        member_price,
+      </if>
+      <if test="memberLevelName != null">
+        member_level_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        #{adminId,jdbcType=BIGINT},
+      <if test="productId != null">
+        #{productId,jdbcType=BIGINT},
       </if>
-      <if test="permissionId != null">
-        #{permissionId,jdbcType=BIGINT},
+      <if test="memberLevelId != null">
+        #{memberLevelId,jdbcType=BIGINT},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="memberPrice != null">
+        #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="memberLevelName != null">
+        #{memberLevelName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultType="java.lang.Long">
-    select count(*) from ums_admin_permission_relation
+  <select id="countByExample" parameterType="com.macro.mall.model.PmsMemberPriceExample" resultType="java.lang.Long">
+    select count(*) from pms_member_price
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ums_admin_permission_relation
+    update pms_member_price
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.adminId != null">
-        admin_id = #{record.adminId,jdbcType=BIGINT},
+      <if test="record.productId != null">
+        product_id = #{record.productId,jdbcType=BIGINT},
       </if>
-      <if test="record.permissionId != null">
-        permission_id = #{record.permissionId,jdbcType=BIGINT},
+      <if test="record.memberLevelId != null">
+        member_level_id = #{record.memberLevelId,jdbcType=BIGINT},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.memberPrice != null">
+        member_price = #{record.memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.memberLevelName != null">
+        member_level_name = #{record.memberLevelName,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -162,35 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ums_admin_permission_relation
+    update pms_member_price
     set id = #{record.id,jdbcType=BIGINT},
-      admin_id = #{record.adminId,jdbcType=BIGINT},
-      permission_id = #{record.permissionId,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=INTEGER}
+      product_id = #{record.productId,jdbcType=BIGINT},
+      member_level_id = #{record.memberLevelId,jdbcType=BIGINT},
+      member_price = #{record.memberPrice,jdbcType=DECIMAL},
+      member_level_name = #{record.memberLevelName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.PmsMemberPrice">
+    update pms_member_price
     <set>
-      <if test="adminId != null">
-        admin_id = #{adminId,jdbcType=BIGINT},
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=BIGINT},
       </if>
-      <if test="permissionId != null">
-        permission_id = #{permissionId,jdbcType=BIGINT},
+      <if test="memberLevelId != null">
+        member_level_id = #{memberLevelId,jdbcType=BIGINT},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="memberPrice != null">
+        member_price = #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="memberLevelName != null">
+        member_level_name = #{memberLevelName,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
-    set admin_id = #{adminId,jdbcType=BIGINT},
-      permission_id = #{permissionId,jdbcType=BIGINT},
-      type = #{type,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.PmsMemberPrice">
+    update pms_member_price
+    set product_id = #{productId,jdbcType=BIGINT},
+      member_level_id = #{memberLevelId,jdbcType=BIGINT},
+      member_price = #{memberPrice,jdbcType=DECIMAL},
+      member_level_name = #{memberLevelName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

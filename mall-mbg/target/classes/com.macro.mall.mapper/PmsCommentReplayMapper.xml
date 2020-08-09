@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.UmsAdminPermissionRelationMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.UmsAdminPermissionRelation">
+<mapper namespace="com.macro.mall.mapper.PmsCommentReplayMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.PmsCommentReplay">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="admin_id" jdbcType="BIGINT" property="adminId" />
-    <result column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="comment_id" jdbcType="BIGINT" property="commentId" />
+    <result column="member_nick_name" jdbcType="VARCHAR" property="memberNickName" />
+    <result column="member_icon" jdbcType="VARCHAR" property="memberIcon" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="type" jdbcType="INTEGER" property="type" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -66,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, admin_id, permission_id, type
+    id, comment_id, member_nick_name, member_icon, content, create_time, type
   </sql>
-  <select id="selectByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.macro.mall.model.PmsCommentReplayExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from pms_comment_replay
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,73 +88,102 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from pms_comment_replay
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ums_admin_permission_relation
+    delete from pms_comment_replay
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample">
-    delete from ums_admin_permission_relation
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.PmsCommentReplayExample">
+    delete from pms_comment_replay
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insert" parameterType="com.macro.mall.model.PmsCommentReplay">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation (admin_id, permission_id, type
+    insert into pms_comment_replay (comment_id, member_nick_name, member_icon, 
+      content, create_time, type
       )
-    values (#{adminId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}
+    values (#{commentId,jdbcType=BIGINT}, #{memberNickName,jdbcType=VARCHAR}, #{memberIcon,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insertSelective" parameterType="com.macro.mall.model.PmsCommentReplay">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation
+    insert into pms_comment_replay
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        admin_id,
+      <if test="commentId != null">
+        comment_id,
       </if>
-      <if test="permissionId != null">
-        permission_id,
+      <if test="memberNickName != null">
+        member_nick_name,
+      </if>
+      <if test="memberIcon != null">
+        member_icon,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="type != null">
         type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        #{adminId,jdbcType=BIGINT},
+      <if test="commentId != null">
+        #{commentId,jdbcType=BIGINT},
       </if>
-      <if test="permissionId != null">
-        #{permissionId,jdbcType=BIGINT},
+      <if test="memberNickName != null">
+        #{memberNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberIcon != null">
+        #{memberIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultType="java.lang.Long">
-    select count(*) from ums_admin_permission_relation
+  <select id="countByExample" parameterType="com.macro.mall.model.PmsCommentReplayExample" resultType="java.lang.Long">
+    select count(*) from pms_comment_replay
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ums_admin_permission_relation
+    update pms_comment_replay
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.adminId != null">
-        admin_id = #{record.adminId,jdbcType=BIGINT},
+      <if test="record.commentId != null">
+        comment_id = #{record.commentId,jdbcType=BIGINT},
       </if>
-      <if test="record.permissionId != null">
-        permission_id = #{record.permissionId,jdbcType=BIGINT},
+      <if test="record.memberNickName != null">
+        member_nick_name = #{record.memberNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberIcon != null">
+        member_icon = #{record.memberIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
@@ -162,23 +194,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ums_admin_permission_relation
+    update pms_comment_replay
     set id = #{record.id,jdbcType=BIGINT},
-      admin_id = #{record.adminId,jdbcType=BIGINT},
-      permission_id = #{record.permissionId,jdbcType=BIGINT},
+      comment_id = #{record.commentId,jdbcType=BIGINT},
+      member_nick_name = #{record.memberNickName,jdbcType=VARCHAR},
+      member_icon = #{record.memberIcon,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       type = #{record.type,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.PmsCommentReplay">
+    update pms_comment_replay
     <set>
-      <if test="adminId != null">
-        admin_id = #{adminId,jdbcType=BIGINT},
+      <if test="commentId != null">
+        comment_id = #{commentId,jdbcType=BIGINT},
       </if>
-      <if test="permissionId != null">
-        permission_id = #{permissionId,jdbcType=BIGINT},
+      <if test="memberNickName != null">
+        member_nick_name = #{memberNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberIcon != null">
+        member_icon = #{memberIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
@@ -186,10 +230,13 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
-    set admin_id = #{adminId,jdbcType=BIGINT},
-      permission_id = #{permissionId,jdbcType=BIGINT},
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.PmsCommentReplay">
+    update pms_comment_replay
+    set comment_id = #{commentId,jdbcType=BIGINT},
+      member_nick_name = #{memberNickName,jdbcType=VARCHAR},
+      member_icon = #{memberIcon,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

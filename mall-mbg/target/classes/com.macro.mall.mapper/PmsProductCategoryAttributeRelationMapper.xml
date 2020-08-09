@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.UmsAdminPermissionRelationMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.UmsAdminPermissionRelation">
+<mapper namespace="com.macro.mall.mapper.PmsProductCategoryAttributeRelationMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.PmsProductCategoryAttributeRelation">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="admin_id" jdbcType="BIGINT" property="adminId" />
-    <result column="permission_id" jdbcType="BIGINT" property="permissionId" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="product_category_id" jdbcType="BIGINT" property="productCategoryId" />
+    <result column="product_attribute_id" jdbcType="BIGINT" property="productAttributeId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,15 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, admin_id, permission_id, type
+    id, product_category_id, product_attribute_id
   </sql>
-  <select id="selectByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.macro.mall.model.PmsProductCategoryAttributeRelationExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from pms_product_category_attribute_relation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,76 +84,67 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from pms_product_category_attribute_relation
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ums_admin_permission_relation
+    delete from pms_product_category_attribute_relation
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample">
-    delete from ums_admin_permission_relation
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.PmsProductCategoryAttributeRelationExample">
+    delete from pms_product_category_attribute_relation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insert" parameterType="com.macro.mall.model.PmsProductCategoryAttributeRelation">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation (admin_id, permission_id, type
+    insert into pms_product_category_attribute_relation (product_category_id, product_attribute_id
       )
-    values (#{adminId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}
+    values (#{productCategoryId,jdbcType=BIGINT}, #{productAttributeId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
+  <insert id="insertSelective" parameterType="com.macro.mall.model.PmsProductCategoryAttributeRelation">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin_permission_relation
+    insert into pms_product_category_attribute_relation
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        admin_id,
+      <if test="productCategoryId != null">
+        product_category_id,
       </if>
-      <if test="permissionId != null">
-        permission_id,
-      </if>
-      <if test="type != null">
-        type,
+      <if test="productAttributeId != null">
+        product_attribute_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        #{adminId,jdbcType=BIGINT},
+      <if test="productCategoryId != null">
+        #{productCategoryId,jdbcType=BIGINT},
       </if>
-      <if test="permissionId != null">
-        #{permissionId,jdbcType=BIGINT},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="productAttributeId != null">
+        #{productAttributeId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.UmsAdminPermissionRelationExample" resultType="java.lang.Long">
-    select count(*) from ums_admin_permission_relation
+  <select id="countByExample" parameterType="com.macro.mall.model.PmsProductCategoryAttributeRelationExample" resultType="java.lang.Long">
+    select count(*) from pms_product_category_attribute_relation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ums_admin_permission_relation
+    update pms_product_category_attribute_relation
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.adminId != null">
-        admin_id = #{record.adminId,jdbcType=BIGINT},
+      <if test="record.productCategoryId != null">
+        product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
       </if>
-      <if test="record.permissionId != null">
-        permission_id = #{record.permissionId,jdbcType=BIGINT},
-      </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.productAttributeId != null">
+        product_attribute_id = #{record.productAttributeId,jdbcType=BIGINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -162,35 +152,30 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ums_admin_permission_relation
+    update pms_product_category_attribute_relation
     set id = #{record.id,jdbcType=BIGINT},
-      admin_id = #{record.adminId,jdbcType=BIGINT},
-      permission_id = #{record.permissionId,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=INTEGER}
+      product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
+      product_attribute_id = #{record.productAttributeId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.PmsProductCategoryAttributeRelation">
+    update pms_product_category_attribute_relation
     <set>
-      <if test="adminId != null">
-        admin_id = #{adminId,jdbcType=BIGINT},
+      <if test="productCategoryId != null">
+        product_category_id = #{productCategoryId,jdbcType=BIGINT},
       </if>
-      <if test="permissionId != null">
-        permission_id = #{permissionId,jdbcType=BIGINT},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="productAttributeId != null">
+        product_attribute_id = #{productAttributeId,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
-    set admin_id = #{adminId,jdbcType=BIGINT},
-      permission_id = #{permissionId,jdbcType=BIGINT},
-      type = #{type,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.PmsProductCategoryAttributeRelation">
+    update pms_product_category_attribute_relation
+    set product_category_id = #{productCategoryId,jdbcType=BIGINT},
+      product_attribute_id = #{productAttributeId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
