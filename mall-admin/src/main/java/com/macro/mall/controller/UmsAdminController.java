@@ -96,4 +96,29 @@ public class UmsAdminController {
         }
         return CommonResult.success(data);
     }
+
+    @ApiOperation(value = "登出功能")
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public CommonResult logout() {
+        return CommonResult.success(null);
+    }
+
+    @ApiOperation(value = "根据用户名或姓名分页获取用户列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public CommonResult list(@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword, @RequestParam(value = "pageSize", required = false, defaultValue = "") Integer pageSize,
+                             @RequestParam(value = "pageNum", required = false, defaultValue = "") Integer pageNum) {
+        List<UmsAdmin> adminList = adminService.list(keyword, pageSize, pageNum);
+        return CommonResult.success(adminList);
+
+    }
+
+    @ApiOperation(value = "修改指定用户信息")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public CommonResult update(@PathVariable Long id, @RequestBody UmsAdmin admin) {
+        int count = adminService.update(id, admin);
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
 }
