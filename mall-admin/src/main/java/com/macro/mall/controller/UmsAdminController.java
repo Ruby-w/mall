@@ -4,7 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.UmsAdminLoginParam;
 import com.macro.mall.dto.UmsAdminParam;
+import com.macro.mall.dto.UpdateAdminPasswordParam;
 import com.macro.mall.model.UmsAdmin;
+import com.macro.mall.model.UmsPermission;
 import com.macro.mall.model.UmsRole;
 import com.macro.mall.service.UmsAdminService;
 import com.macro.mall.service.UmsRoleService;
@@ -13,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -120,5 +123,73 @@ public class UmsAdminController {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
+    }
+
+    @ApiOperation(value = "修改指定用户密码")
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    public CommonResult updatePassword(@RequestBody UpdateAdminPasswordParam adminPasswordParam) {
+        int count = adminService.updatePassword(adminPasswordParam);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else if (count == -1) {
+            return CommonResult.failed("提交参数不合法");
+        } else if (count == -2) {
+            return CommonResult.failed("找不到用户");
+        } else if (count == -3) {
+            return CommonResult.failed("旧密码错误!");
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+    @ApiOperation(value = "修改账号状态")
+    @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
+    public CommonResult updateStatus(@PathVariable Long id, @RequestParam(value = "status") Integer status) {
+        UmsAdmin admin = new UmsAdmin();
+        admin.setStatus(status);
+        int count = adminService.update(id, admin);
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    @ApiOperation(value = "给用户分配角色")
+    @RequestMapping(value = "/updateRole", method = RequestMethod.POST)
+    public CommonResult updateRole(@RequestParam(value = "adminId") Long adminId,
+                                   @RequestParam(value = "roleIds") List<Long> roleIds) {
+        int count = adminService.updateRole(adminId, roleIds);
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    @ApiOperation(value = "获取指定用户的角色")
+    @RequestMapping(value = "/getRoleList", method = RequestMethod.GET)
+    public CommonResult<List<UmsRole>> getRoleList(@PathVariable Long adminId) {
+        List<UmsRole> roleList = adminService.getRoleList(adminId);
+        if (StringUtils.isEmpty(roleList) && roleList.size() == 0) {
+            return CommonResult.failed();
+        }
+        return CommonResult.success(roleList);
+    }
+
+    @ApiOperation(value = "给用户分配+-的权限")
+    @RequestMapping(value = "/updatePermission", method = RequestMethod.POST)
+    public CommonResult updatePermission(@RequestParam Long id,
+                                         @RequestParam(value = "permissionIds") List<Long> permissionIds) {
+        int count = adminService.updatePermission(id, permissionIds);
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    @ApiOperation(value = "获取用户所有权限(包括+-的权限)")
+    @RequestMapping(value = "/getPermissionList", method = RequestMethod.GET)
+    public CommonResult<List<UmsPermission>> getPermissionList(@PathVariable Long adminId) {
+        List<UmsPermission> permissionList = adminService.getPermissionList(adminId);
+        return CommonResult.success(permissionList);
     }
 }
